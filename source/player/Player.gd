@@ -4,7 +4,7 @@ const FRICTION := 0.05;
 const ACCELERATION := 15;
 const BACKWARDS_ACCELERATION := 30;
 const MAX_SPEED := 600;
-const MAX_SHOT_SPREAD = 30;
+const MAX_SHOT_SPREAD = 60;
 const MAX_CONTINUES_SHOOTING_TIME = 1.5;
 const MAX_BULLET_SPEED = 2000;
 var isOverheating = false;
@@ -16,7 +16,7 @@ var max_border_y: int;
 var max_border_x: int;
 
 const min_border_x = 32;
-const min_border_y = 32;
+var min_border_y;
 
 
 var overheatPercentage = 0;
@@ -24,6 +24,7 @@ var motion := Vector2();
 var current_shooting_time := 0.0;
 func _ready():
 	max_border_y = get_viewport_rect().size.y - 32; 
+	min_border_y = (get_viewport_rect().size.y / 1.5) - 32;
 	max_border_x = get_viewport_rect().size.x - 32;
 
 func _physics_process(delta):
@@ -96,6 +97,7 @@ func _physics_process(delta):
 
  
 var can_shoot = true;
+var shot_spread = 0;
 func shoot(delta):
 	current_shooting_time += delta * 2;
 	calc_heat_percentage();
@@ -103,7 +105,9 @@ func shoot(delta):
 		emit_signal("shot_fired", overheatPercentage);
 		can_shoot = false;
 		$BetweenShotsCooldown.wait_time = 0.1 - (0.1 * overheatPercentage);
-		var bullet = Instance.Bullet(global_position, rotation_degrees, MAX_BULLET_SPEED * overheatPercentage, MAX_SHOT_SPREAD * overheatPercentage);
+		shot_spread = lerp(0, MAX_SHOT_SPREAD * overheatPercentage, 0.2);
+		var bullet = Instance.Bullet(global_position, rotation_degrees, MAX_BULLET_SPEED * overheatPercentage, shot_spread);
+		motion.y += 50;
 		bullet.shooter = self
 		get_parent().add_child(bullet);
 
@@ -112,9 +116,9 @@ func calc_heat_percentage():
 
 func _on_BetweenShotsCooldown_timeout():
 	can_shoot = true;	
-
+	
 
 func _on_OverheatCooldown_timeout():
 	isOverheating = false;
 	overheatPercentage = 0;
-	
+	shot_spread = 0;

@@ -1,7 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://source/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://graphics/images/ships/ship.png" type="Texture" id=2]
+[ext_resource path="res://graphics/images/firensmoke/1.png" type="Texture" id=3]
+[ext_resource path="res://graphics/images/firensmoke/2.png" type="Texture" id=4]
+[ext_resource path="res://graphics/images/firensmoke/3.png" type="Texture" id=5]
+[ext_resource path="res://graphics/images/firensmoke/4.png" type="Texture" id=6]
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -14,11 +18,19 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 29.8386, 29.9764 )
 
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "default",
+"speed": 10.0
+} ]
+
 [node name="Player" type="Area2D"]
 script = ExtResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-scale = Vector2( 0.3, 0.3 )
+scale = Vector2( 0.4, 0.4 )
 frames = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -30,5 +42,11 @@ autostart = true
 
 [node name="OverheatCooldown" type="Timer" parent="."]
 one_shot = true
+
+[node name="Burners" type="AnimatedSprite" parent="."]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 4 )
+playing = true
+offset = Vector2( 0, 400 )
 [connection signal="timeout" from="BetweenShotsCooldown" to="." method="_on_BetweenShotsCooldown_timeout"]
 [connection signal="timeout" from="OverheatCooldown" to="." method="_on_OverheatCooldown_timeout"]
