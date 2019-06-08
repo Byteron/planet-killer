@@ -7,7 +7,6 @@
 extents = Vector2( 32.5408, 32 )
 
 [node name="Enemy" type="Area2D"]
-position = Vector2( 0, -100 )
 script = ExtResource( 1 )
 
 [node name="CooldownTimer" type="Timer" parent="."]
@@ -15,7 +14,6 @@ one_shot = true
 
 [node name="ShootTimer" type="Timer" parent="."]
 wait_time = 0.1
-autostart = true
 
 [node name="Tween" type="Tween" parent="."]
 
@@ -27,6 +25,10 @@ shape = SubResource( 1 )
 
 [node name="Cannon" type="Node2D" parent="."]
 position = Vector2( 0, -40 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 [connection signal="timeout" from="CooldownTimer" to="." method="_on_CooldownTimer_timeout"]
 [connection signal="timeout" from="ShootTimer" to="." method="_on_ShootTimer_timeout"]
 [connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]
+[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
+[connection signal="viewport_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_viewport_entered"]

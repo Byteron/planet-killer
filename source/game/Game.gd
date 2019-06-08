@@ -10,6 +10,7 @@ func _on_Player_overheat(timer):
 
 func spawn_enemy():
 	var enemy = Instance.Enemy()
+	enemy.position.y = -100
 	add_child(enemy)
 
 func _on_SpawnTimer_timeout() -> void:

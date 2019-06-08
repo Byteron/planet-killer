@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://source/game/Game.gd" type="Script" id=1]
 [ext_resource path="res://source/player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://source/camera/Camera2D.tscn" type="PackedScene" id=3]
-[ext_resource path="res://source/enemies/Enemy.tscn" type="PackedScene" id=4]
-[ext_resource path="res://source/game/Background.tscn" type="PackedScene" id=5]
+[ext_resource path="res://source/game/Background.tscn" type="PackedScene" id=4]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
@@ -16,10 +15,7 @@ position = Vector2( 283.204, 886.753 )
 anchor_mode = 0
 current = true
 
-[node name="Enemy" parent="." instance=ExtResource( 4 )]
-position = Vector2( 157.648, 166.485 )
-
-[node name="Background" parent="." instance=ExtResource( 5 )]
+[node name="Background" parent="." instance=ExtResource( 4 )]
 
 [node name="SpawnTimer" type="Timer" parent="."]
 wait_time = 2.0

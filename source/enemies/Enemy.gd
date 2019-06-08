@@ -20,6 +20,9 @@ func _ready() -> void:
 	for i in 5:
 		positions.append(Vector2(randi() % int(size.x), randi() % int(size.y)))
 
+	cooldown_timer.start()
+	shoot_timer.stop()
+
 func _process(delta: float) -> void:
 	spread += delta * 2
 
