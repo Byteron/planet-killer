@@ -17,7 +17,7 @@ func _process(delta: float) -> void:
 	spread += delta * 2
 
 func shoot() -> void:
-	var bullet = Instance.Bullet(cannon.global_position, -180, 1600, spread)
+	var bullet = Instance.Bullet(cannon.global_position, -180, 1600, 10)
 	bullet.shooter = self
 	get_parent().add_child(bullet)
 
