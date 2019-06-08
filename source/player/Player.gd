@@ -33,8 +33,8 @@ func _physics_process(delta):
 	var down = Input.is_action_pressed("ui_down");
 	var up = Input.is_action_pressed("ui_up");
 	var shoot = Input.is_action_pressed("shoot");
-	
-	
+
+
 	$AnimatedSprite.modulate = Color(1, 1 - overheatPercentage, 1 - overheatPercentage);
 	if shoot:
 		if current_shooting_time < MAX_CONTINUES_SHOOTING_TIME:
@@ -50,11 +50,11 @@ func _physics_process(delta):
 		calc_heat_percentage();
 		current_shooting_time = max(0, current_shooting_time - delta);
 	if right:
-		if motion.x < -ACCELERATION: 
+		if motion.x < -ACCELERATION:
 			motion.x = min(motion.x + BACKWARDS_ACCELERATION, MAX_SPEED);
 			# $FrictionParticle.emit_for_motion(lastFrameMotion);
 		else:
-			motion.x = min(motion.x + ACCELERATION, MAX_SPEED);	
+			motion.x = min(motion.x + ACCELERATION, MAX_SPEED);
 	elif left:
 		if motion.x > ACCELERATION:
 			motion.x = max(motion.x - BACKWARDS_ACCELERATION, -MAX_SPEED);
@@ -63,8 +63,8 @@ func _physics_process(delta):
 			motion.x = max(motion.x - ACCELERATION, -MAX_SPEED);
 	else:
 		# $FrictionParticle.set_emitting(false);
-		motion.x = lerp(motion.x, 0, FRICTION);	
-	
+		motion.x = lerp(motion.x, 0, FRICTION);
+
 	if down:
 		if motion.y < -ACCELERATION:
 			motion.y = min(motion.y + BACKWARDS_ACCELERATION, MAX_SPEED);
@@ -77,7 +77,7 @@ func _physics_process(delta):
 			motion.y = max(motion.y - ACCELERATION, -MAX_SPEED);
 	else:
 		motion.y = lerp(motion.y, 0, FRICTION);
-		
+
 	var newPos = get_global_position() + Vector2(motion.x * delta, motion.y * delta);
 	if newPos.y >= max_border_y || newPos.y <= min_border_y:
 		motion.y = 0;
@@ -87,15 +87,15 @@ func _physics_process(delta):
 		motion.x = 0;
 		newPos.x = min(newPos.x, max_border_x);
 		newPos.x = max(min_border_x, newPos.x);
-		
+
 	if newPos.x > get_viewport_rect().size.x:
 		newPos.x = get_viewport_rect().size.x;
 	elif newPos.x <= 0:
 		newPos.x = 0
-	
+
 	set_global_position(newPos);
 
- 
+
 var can_shoot = true;
 var shot_spread = 0;
 func shoot(delta):
@@ -116,7 +116,6 @@ func calc_heat_percentage():
 
 func _on_BetweenShotsCooldown_timeout():
 	can_shoot = true;	
-	
 
 func _on_OverheatCooldown_timeout():
 	isOverheating = false;
