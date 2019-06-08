@@ -15,13 +15,15 @@ func initialize(pos, rot, speed, spread):
 	rotation_degrees = rot + rand_range(spread, -spread)
 	speed = speed
 
-func _on_Bullet_area_entered(area: Area2D) -> void:
+func _on_Bullet_area_entered(area) -> void:
 
 	if shooter == area:
 		return
 
-	if area.has("shooter"):
-		if area.shooter == shooter:
+	var parent = area.get_parent()
+
+	if parent.get("shooter"):
+		if parent.shooter == shooter:
 			return
 
 	print(name, " collided with ", area.name)
