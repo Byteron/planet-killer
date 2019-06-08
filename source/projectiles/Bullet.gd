@@ -26,6 +26,11 @@ func _on_Bullet_area_entered(area) -> void:
 		if parent.shooter == shooter:
 			return
 
+	if area.name == "Player":
+		area.queue_free()
+	if area.name == "Enemy":
+		area.queue_free()
+
 	print(name, " collided with ", area.name)
 	queue_free()
 

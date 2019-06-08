@@ -38,12 +38,11 @@ func _on_ShootTimer_timeout() -> void:
 	if shots < shots_max:
 		shoot()
 	else:
-
 		cooldown_timer.start()
 		shoot_timer.stop()
+
 func _on_CooldownTimer_timeout() -> void:
 	move()
-
 
 func _on_Tween_tween_completed(object: Object, key: NodePath) -> void:
 	shots = 0
