@@ -36,7 +36,7 @@ func shoot() -> void:
 
 func move() -> void:
 	var new_position = positions[randi() % positions.size()]
-	tween.interpolate_property(self, "position", position, new_position, 0.5, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+	tween.interpolate_property(self, "position", position, new_position, 2.0, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	tween.start()
 
 func _on_ShootTimer_timeout() -> void:
