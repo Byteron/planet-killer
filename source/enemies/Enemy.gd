@@ -17,12 +17,14 @@ func _process(delta: float) -> void:
 	spread += delta * 2
 
 func shoot() -> void:
-	var bullet = Instance.Bullet(cannon.global_position, rotation_degrees, 1600, spread)
+	var bullet = Instance.Bullet(cannon.global_position, -180, 1600, spread)
 	bullet.shooter = self
 	get_parent().add_child(bullet)
 
 func move() -> void:
-	pass
+	var new_position = positions[randi() % positions.size()]
+	tween.interpolate_property(self, "position", position, new_position, 0.5, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+	tween.start()
 
 func _on_ShootTimer_timeout() -> void:
 	shoot()
