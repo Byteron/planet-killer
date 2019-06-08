@@ -1,6 +1,7 @@
 extends Node2D
 
-var speed = 1000
+var speed := 1000
+
 var shooter = null
 
 onready var bullet := $Bullet
@@ -8,15 +9,19 @@ onready var bullet := $Bullet
 func _physics_process(delta: float) -> void:
 	bullet.position.y -= speed * delta
 
-func initialize(pos, rot, speed = 1000):
+func initialize(pos, rot, speed, spread):
 	position = pos
-	rotation_degrees = rot
+	rotation_degrees = rot + rand_range(spread, -spread)
 	speed = speed
 
 func _on_Bullet_area_entered(area: Area2D) -> void:
 
 	if shooter == area:
 		return
+
+	if area is Instance.Bullet:
+		if area.shooter == shooter:
+			return
 
 	print(name, " collided with ", area.name)
 	queue_free()
