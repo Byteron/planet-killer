@@ -1,11 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://source/game/Game.gd" type="Script" id=1]
 [ext_resource path="res://source/player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://source/camera/Camera2D.tscn" type="PackedScene" id=3]
 [ext_resource path="res://source/enemies/Enemy.tscn" type="PackedScene" id=4]
-[ext_resource path="res://graphics/images/backgrounds/background1.png" type="Texture" id=5]
-[ext_resource path="res://graphics/images/backgrounds/clouds.png" type="Texture" id=6]
+[ext_resource path="res://source/game/Background.tscn" type="PackedScene" id=5]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
@@ -20,24 +19,10 @@ current = true
 [node name="Enemy" parent="." instance=ExtResource( 4 )]
 position = Vector2( 157.648, 166.485 )
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+[node name="Background" parent="." instance=ExtResource( 5 )]
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2( 0.5, 0.5 )
-motion_mirroring = Vector2( 0, 2048 )
-
-[node name="TextureRect" type="TextureRect" parent="ParallaxBackground/ParallaxLayer"]
-margin_right = 40.0
-margin_bottom = 40.0
-texture = ExtResource( 5 )
-
-[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2( 0.8, 0.8 )
-motion_mirroring = Vector2( 0, 2048 )
-
-[node name="TextureRect" type="TextureRect" parent="ParallaxBackground/ParallaxLayer2"]
-modulate = Color( 1, 1, 1, 0.478431 )
-margin_right = 40.0
-margin_bottom = 40.0
-texture = ExtResource( 6 )
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
 [connection signal="shot_fired" from="Player" to="." method="_on_Player_shot_fired"]
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]
