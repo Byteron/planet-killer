@@ -1,10 +1,20 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://source/game/Game.gd" type="Script" id=1]
 [ext_resource path="res://source/player/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://source/camera/Camera2D.tscn" type="PackedScene" id=3]
+[ext_resource path="res://source/enemies/Enemy.tscn" type="PackedScene" id=4]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 277, 841 )
+position = Vector2( 283.204, 886.753 )
+
+[node name="Camera2D" parent="." instance=ExtResource( 3 )]
+anchor_mode = 0
+current = true
+
+[node name="Enemy" parent="." instance=ExtResource( 4 )]
+position = Vector2( 157.648, 166.485 )
+[connection signal="shot_fired" from="Player" to="." method="_on_Player_shot_fired"]
