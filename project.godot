@@ -9,12 +9,18 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node2D",
+"class": "Bullet",
+"language": "GDScript",
+"path": "res://source/projectiles/Bullet.gd"
+}, {
 "base": "Node",
 "class": "SceneLoader",
 "language": "GDScript",
 "path": "res://source/tools/SceneLoader.gd"
 } ]
 _global_script_class_icons={
+"Bullet": "",
 "SceneLoader": ""
 }
 

@@ -1,4 +1,5 @@
 extends Node2D
+class_name Bullet
 
 var speed := 1000
 
