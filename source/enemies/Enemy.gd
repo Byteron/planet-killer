@@ -1,8 +1,17 @@
 extends Area2D
 
+var spread := 0.0
+
+var positions = []
+
+onready var tween := $Tween as Tween
 onready var cannon := $Cannon
 
-var spread := 0.0
+func _ready() -> void:
+	var size = get_viewport_rect().size
+	size.y = size.y / 2
+	for i in 5:
+		positions.append(Vector2(randi() % int(size.x), randi() % int(size.y)))
 
 func _process(delta: float) -> void:
 	spread += delta * 2
@@ -12,5 +21,5 @@ func shoot() -> void:
 	bullet.shooter = self
 	get_parent().add_child(bullet)
 
-func _on_Timer_timeout() -> void:
+func _on_ShootTimer_timeout() -> void:
 	shoot()
