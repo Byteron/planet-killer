@@ -22,6 +22,7 @@ var min_border_y;
 var overheatPercentage = 0;
 var motion := Vector2();
 var current_shooting_time := 0.0;
+
 func _ready():
 	max_border_y = get_viewport_rect().size.y - 32;
 	min_border_y = (get_viewport_rect().size.y / 1.5) - 32;
@@ -101,6 +102,7 @@ func _physics_process(delta):
 
 var can_shoot = true;
 var shot_spread = 0;
+
 func shoot(delta):
 	current_shooting_time += delta * 2;
 	calc_heat_percentage();
@@ -112,7 +114,7 @@ func shoot(delta):
 		var bullet = Instance.Bullet(global_position, rotation_degrees, MAX_BULLET_SPEED * overheatPercentage, shot_spread);
 		motion.y += 50;
 		bullet.shooter = self
-		get_parent().add_child(bullet);
+		get_parent().bullets.add_child(bullet);
 
 func calc_heat_percentage():
 	overheatPercentage = current_shooting_time / MAX_CONTINUES_SHOOTING_TIME;

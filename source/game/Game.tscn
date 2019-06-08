@@ -1,12 +1,19 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://source/game/Game.gd" type="Script" id=1]
 [ext_resource path="res://source/player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://source/camera/Camera2D.tscn" type="PackedScene" id=3]
 [ext_resource path="res://source/game/Background.tscn" type="PackedScene" id=4]
+[ext_resource path="res://graphics/fonts/pixelmix/pixelmix.ttf" type="DynamicFontData" id=5]
+
+[sub_resource type="DynamicFont" id=1]
+size = 32
+font_data = ExtResource( 5 )
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
+
+[node name="Bullets" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 283.204, 886.753 )
@@ -29,9 +36,12 @@ autostart = true
 [node name="Score" type="Label" parent="CanvasLayer"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -20.0
-margin_right = 20.0
-margin_bottom = 14.0
+margin_left = -200.0
+margin_right = 200.0
+margin_bottom = 50.0
+custom_fonts/font = SubResource( 1 )
+align = 1
+valign = 1
 [connection signal="shot_fired" from="Player" to="." method="_on_Player_shot_fired"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]
