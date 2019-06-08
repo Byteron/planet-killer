@@ -37,3 +37,7 @@ func _on_ScoreTimer_timeout() -> void:
 
 func _on_Player_health_depleted(health) -> void:
 	health_bar.value = health
+
+	if health < 1:
+		$CanvasLayer/GameOver.show()
+		$SpawnTimer.stop()

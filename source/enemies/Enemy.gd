@@ -1,5 +1,9 @@
 extends Area2D
 
+var textures = [
+	preload("res://graphics/images/ships/tanks.png"),
+	preload("res://graphics/images/ships/tanks2.png")
+]
 var spread := 0.0
 
 var positions = []
@@ -17,6 +21,7 @@ onready var cannon := $Cannon
 var id = "Enemy"
 
 func _ready() -> void:
+	$Sprite.texture = textures[randi() % 2]
 	var size = get_viewport_rect().size
 	size.y = size.y / 2
 	for i in 5:
@@ -29,7 +34,7 @@ func _process(delta: float) -> void:
 	spread += delta * 2
 
 func shoot() -> void:
-	var bullet = Instance.Bullet(cannon.global_position, -180, 1600, 5)
+	var bullet = Instance.Bullet(cannon.global_position - Vector2(0, -50), -180, 1600, 5)
 	bullet.shooter = self
 	get_parent().bullets.add_child(bullet)
 	shots += 1
@@ -50,7 +55,6 @@ func queue_free():
 	var explosion = Instance.Explosion()
 	explosion.global_position = global_position
 	get_parent().add_child(explosion)
-
 	.queue_free()
 
 func _on_CooldownTimer_timeout() -> void:

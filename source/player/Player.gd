@@ -15,7 +15,7 @@ signal shot_fired(percentage);
 signal overheat(timer);
 signal health_depleted(health)
 
-var health := 3 setget _set_health
+var health := 5 setget _set_health
 
 var max_border_y: int;
 var max_border_x: int;
@@ -111,7 +111,7 @@ var can_shoot = true;
 var shot_spread = 0;
 
 func shoot(delta):
-	current_shooting_time += delta * 10;
+	current_shooting_time += delta * 12;
 	calc_heat_percentage();
 	if can_shoot:
 		emit_signal("shot_fired", overheatPercentage);
@@ -126,13 +126,19 @@ func shoot(delta):
 func calc_heat_percentage():
 	overheatPercentage = current_shooting_time / MAX_CONTINUES_SHOOTING_TIME;
 
+func queue_free():
+	var explosion = Instance.Explosion()
+	explosion.global_position = global_position
+	get_parent().add_child(explosion)
+	.queue_free()
+
 func _set_health(value):
 	health = value
 
 	emit_signal("health_depleted", health)
 
 	if health < 1:
-		get_tree().reload_current_scene()
+		queue_free()
 
 func _on_BetweenShotsCooldown_timeout():
 	can_shoot = true;

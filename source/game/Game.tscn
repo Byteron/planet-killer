@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://source/game/Game.gd" type="Script" id=1]
 [ext_resource path="res://source/player/Player.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://source/game/Background.tscn" type="PackedScene" id=4]
 [ext_resource path="res://graphics/fonts/pixelmix/pixelmix.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://graphics/images/interface/white.png" type="Texture" id=6]
+[ext_resource path="res://source/interface/GameOver.tscn" type="PackedScene" id=7]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
@@ -45,19 +46,22 @@ align = 1
 valign = 1
 
 [node name="HealthBar" type="TextureProgress" parent="CanvasLayer"]
-anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -24.0
-margin_right = 165.0
+margin_top = 805.0
+margin_right = 10.0
 texture_under = ExtResource( 6 )
 texture_progress = ExtResource( 6 )
+fill_mode = 3
 tint_under = Color( 0, 0, 0, 0.588235 )
-tint_progress = Color( 1, 0, 0, 1 )
+tint_progress = Color( 0.717647, 0.831373, 0.870588, 1 )
 nine_patch_stretch = true
 stretch_margin_left = 1
 stretch_margin_top = 1
 stretch_margin_right = 1
 stretch_margin_bottom = 1
+
+[node name="GameOver" parent="CanvasLayer" instance=ExtResource( 7 )]
+visible = false
 [connection signal="health_depleted" from="Player" to="." method="_on_Player_health_depleted"]
 [connection signal="shot_fired" from="Player" to="." method="_on_Player_shot_fired"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
