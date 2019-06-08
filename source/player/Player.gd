@@ -7,7 +7,7 @@ const MAX_SPEED := 600;
 const MAX_SHOT_SPREAD = 30;
 const MAX_CONTINUES_SHOOTING_TIME = 1.5;
 const MAX_BULLET_SPEED = 2000;
-
+var isOverheating = false;
 signal shot_fired(percentage);
 
 var max_border_y: int;
@@ -16,6 +16,8 @@ var max_border_x: int;
 const min_border_x = 32;
 const min_border_y = 32;
 
+
+var overheatPercentage = 0;
 var motion := Vector2();
 var current_shooting_time := 0.0;
 func _ready():
@@ -29,12 +31,20 @@ func _physics_process(delta):
 	var up = Input.is_action_pressed("ui_up");
 	var shoot = Input.is_action_pressed("shoot");
 	
+	
+	$AnimatedSprite.modulate = Color(1, 1 - overheatPercentage, 1 - overheatPercentage);
 	if shoot:
 		if current_shooting_time < MAX_CONTINUES_SHOOTING_TIME:
-			print(current_shooting_time);
-			shoot(delta);
+			if !isOverheating:
+				shoot(delta);
+			else:
+				$AnimatedSprite.modulate = Color(0, 0, 0);
+		else:
+			isOverheating = true;
+			$OverheatCooldown.start(1);
 	else:
-		current_shooting_time = max(0, current_shooting_time - delta * 3);
+		calc_heat_percentage();
+		current_shooting_time = max(0, current_shooting_time - delta);
 	if right:
 		if motion.x < -ACCELERATION: 
 			motion.x = min(motion.x + BACKWARDS_ACCELERATION, MAX_SPEED);
@@ -85,16 +95,23 @@ func _physics_process(delta):
 var can_shoot = true;
 func shoot(delta):
 	current_shooting_time += delta * 2;
-	var percentage = current_shooting_time / MAX_CONTINUES_SHOOTING_TIME;
+	calc_heat_percentage();
 	if can_shoot:
-		emit_signal("shot_fired", percentage);
+		emit_signal("shot_fired", overheatPercentage);
 		can_shoot = false;
-		
-		var bullet = Instance.Bullet(global_position, rotation_degrees, MAX_BULLET_SPEED * percentage, MAX_SHOT_SPREAD * percentage);
+		$BetweenShotsCooldown.wait_time = 0.1 - (0.1 * overheatPercentage);
+		var bullet = Instance.Bullet(global_position, rotation_degrees, MAX_BULLET_SPEED * overheatPercentage, MAX_SHOT_SPREAD * overheatPercentage);
 		bullet.shooter = self
 		get_parent().add_child(bullet);
-	
 
+func calc_heat_percentage():
+	overheatPercentage = current_shooting_time / MAX_CONTINUES_SHOOTING_TIME;
 
-func _on_Timer_timeout():
+func _on_BetweenShotsCooldown_timeout():
 	can_shoot = true;	
+
+
+func _on_OverheatCooldown_timeout():
+	isOverheating = false;
+	overheatPercentage = 0;
+	
