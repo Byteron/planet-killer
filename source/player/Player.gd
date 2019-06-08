@@ -1,5 +1,6 @@
 extends Area2D
 
+const SHOOT_TIME_DELAY := 0.1
 const FRICTION := 0.05;
 const ACCELERATION := 15;
 const BACKWARDS_ACCELERATION := 30;
@@ -7,6 +8,7 @@ const MAX_SPEED := 600;
 const MAX_SHOT_SPREAD = 60;
 const MAX_CONTINUES_SHOOTING_TIME = 1.5;
 const MAX_BULLET_SPEED = 2000;
+
 var isOverheating = false;
 
 signal shot_fired(percentage);
@@ -18,6 +20,7 @@ var max_border_x: int;
 const min_border_x = 32;
 var min_border_y;
 
+var shoot_time := 0.0
 
 var overheatPercentage = 0;
 var motion := Vector2();
@@ -35,9 +38,11 @@ func _physics_process(delta):
 	var up = Input.is_action_pressed("ui_up");
 	var shoot = Input.is_action_pressed("shoot");
 
+	shoot_time += delta
 
 	$AnimatedSprite.modulate = Color(1, 1 - overheatPercentage, 1 - overheatPercentage);
-	if shoot:
+	if shoot and shoot_time > SHOOT_TIME_DELAY:
+		shoot_time = 0.0
 		if current_shooting_time < MAX_CONTINUES_SHOOTING_TIME:
 			if !isOverheating:
 				shoot(delta);
@@ -99,12 +104,11 @@ func _physics_process(delta):
 
 	set_global_position(newPos);
 
-
 var can_shoot = true;
 var shot_spread = 0;
 
 func shoot(delta):
-	current_shooting_time += delta * 2;
+	current_shooting_time += delta * 10;
 	calc_heat_percentage();
 	if can_shoot:
 		emit_signal("shot_fired", overheatPercentage);
@@ -112,7 +116,7 @@ func shoot(delta):
 		$BetweenShotsCooldown.wait_time = 0.1 - (0.1 * overheatPercentage);
 		shot_spread = lerp(0, MAX_SHOT_SPREAD * overheatPercentage, 0.2);
 		var bullet = Instance.Bullet(global_position, rotation_degrees, MAX_BULLET_SPEED * overheatPercentage, shot_spread);
-		motion.y += 50;
+		motion.y += 100;
 		bullet.shooter = self
 		get_parent().bullets.add_child(bullet);
 
