@@ -34,6 +34,7 @@ config/icon="res://icon.png"
 
 Scene="*res://source/global/Scene.tscn"
 Instance="*res://source/global/Instance.gd"
+Global="*res://source/global/Global.gd"
 
 [display]
 
@@ -81,7 +82,6 @@ shoot={
 
 [rendering]
 
-quality/driver/driver_name="GLES2"
 quality/2d/gles2_use_nvidia_rect_flicker_workaround=true
 quality/intended_usage/framebuffer_allocation=1
 quality/intended_usage/framebuffer_allocation.mobile=0
