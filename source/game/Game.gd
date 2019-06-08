@@ -1,8 +1,9 @@
 extends Node2D
 
 onready var score_label := $CanvasLayer/Score
-
 onready var spawn_timer := $SpawnTimer as Timer
+
+onready var bullets := $Bullets
 
 func _ready() -> void:
 	Global.score = 0
@@ -20,7 +21,6 @@ func spawn_enemy():
 
 func _on_SpawnTimer_timeout() -> void:
 	spawn_enemy()
-
 
 func _on_ScoreTimer_timeout() -> void:
 	Global.score += 10
