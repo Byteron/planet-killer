@@ -28,7 +28,8 @@ func _on_Bullet_area_entered(area) -> void:
 
 	if area.name == "Player":
 		area.queue_free()
-	if area.name == "Enemy":
+
+	if area.get("id") == "Enemy":
 		area.queue_free()
 
 	print(name, " collided with ", area.name)
