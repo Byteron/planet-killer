@@ -23,7 +23,10 @@ frames = SubResource( 2 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 3 )
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.01
+[node name="BetweenShotsCooldown" type="Timer" parent="."]
+wait_time = 0.1
 autostart = true
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+
+[node name="OverheatCooldown" type="Timer" parent="."]
+[connection signal="timeout" from="BetweenShotsCooldown" to="." method="_on_BetweenShotsCooldown_timeout"]
+[connection signal="timeout" from="OverheatCooldown" to="." method="_on_OverheatCooldown_timeout"]
