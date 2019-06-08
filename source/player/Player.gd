@@ -42,6 +42,8 @@ func _physics_process(delta):
 				shoot(delta);
 			else:
 				$AnimatedSprite.modulate = Color(0, 0, 0);
+				if !$OverheatShootSound.playing:
+					$OverheatShootSound.play();
 		else:
 			isOverheating = true;
 			$OverheatCooldown.start(1);
