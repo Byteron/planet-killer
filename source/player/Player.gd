@@ -31,19 +31,20 @@ func _physics_process(delta):
 	var up = Input.is_action_pressed("ui_up");
 	var shoot = Input.is_action_pressed("shoot");
 	
+	
+	$AnimatedSprite.modulate = Color(1, 1 - overheatPercentage, 1 - overheatPercentage);
 	if shoot:
 		if current_shooting_time < MAX_CONTINUES_SHOOTING_TIME:
 			if !isOverheating:
 				shoot(delta);
 			else:
-				print("tood");
+				$AnimatedSprite.modulate = Color(0, 0, 0);
 		else:
 			isOverheating = true;
 			$OverheatCooldown.start(1);
 	else:
-		current_shooting_time = max(0, current_shooting_time - delta * 3);
-		
-	$AnimatedSprite.modulate = Color(overheatPercentage, 1 - overheatPercentage, 1 - overheatPercentage);
+		calc_heat_percentage();
+		current_shooting_time = max(0, current_shooting_time - delta);
 	if right:
 		if motion.x < -ACCELERATION: 
 			motion.x = min(motion.x + BACKWARDS_ACCELERATION, MAX_SPEED);
@@ -94,7 +95,7 @@ func _physics_process(delta):
 var can_shoot = true;
 func shoot(delta):
 	current_shooting_time += delta * 2;
-	overheatPercentage = current_shooting_time / MAX_CONTINUES_SHOOTING_TIME;
+	calc_heat_percentage();
 	if can_shoot:
 		emit_signal("shot_fired", overheatPercentage);
 		can_shoot = false;
@@ -102,6 +103,9 @@ func shoot(delta):
 		var bullet = Instance.Bullet(global_position, rotation_degrees, MAX_BULLET_SPEED * overheatPercentage, MAX_SHOT_SPREAD * overheatPercentage);
 		bullet.shooter = self
 		get_parent().add_child(bullet);
+
+func calc_heat_percentage():
+	overheatPercentage = current_shooting_time / MAX_CONTINUES_SHOOTING_TIME;
 
 func _on_BetweenShotsCooldown_timeout():
 	can_shoot = true;	
