@@ -21,5 +21,11 @@ func shoot() -> void:
 	bullet.shooter = self
 	get_parent().add_child(bullet)
 
+func move() -> void:
+	pass
+
 func _on_ShootTimer_timeout() -> void:
 	shoot()
+
+func _on_MoveTimer_timeout() -> void:
+	move()

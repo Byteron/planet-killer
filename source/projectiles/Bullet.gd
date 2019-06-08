@@ -20,7 +20,7 @@ func _on_Bullet_area_entered(area: Area2D) -> void:
 	if shooter == area:
 		return
 
-	if area is Instance.Bullet:
+	if area.is_class("Bullet"):
 		if area.shooter == shooter:
 			return
 
