@@ -27,7 +27,8 @@ func _on_Bullet_area_entered(area) -> void:
 			return
 
 	if area.name == "Player":
-		get_tree().reload_current_scene()
+		area.health -= 1
+
 
 	if area.get("id") == "Enemy":
 		area.queue_free()

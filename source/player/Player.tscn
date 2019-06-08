@@ -58,7 +58,8 @@ autostart = true
 one_shot = true
 
 [node name="Burners" type="AnimatedSprite" parent="."]
-scale = Vector2( 0.5, 0.5 )
+position = Vector2( 0, -10.6201 )
+scale = Vector2( 0.5, 0.662139 )
 frames = SubResource( 3 )
 playing = true
 offset = Vector2( 0, 400 )

@@ -13,6 +13,9 @@ var isOverheating = false;
 
 signal shot_fired(percentage);
 signal overheat(timer);
+signal health_depleted(health)
+
+var health := 3 setget _set_health
 
 var max_border_y: int;
 var max_border_x: int;
@@ -122,6 +125,14 @@ func shoot(delta):
 
 func calc_heat_percentage():
 	overheatPercentage = current_shooting_time / MAX_CONTINUES_SHOOTING_TIME;
+
+func _set_health(value):
+	health = value
+
+	emit_signal("health_depleted", health)
+
+	if health < 1:
+		get_tree().reload_current_scene()
 
 func _on_BetweenShotsCooldown_timeout():
 	can_shoot = true;
