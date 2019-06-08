@@ -47,6 +47,7 @@ func _physics_process(delta):
 		else:
 			isOverheating = true;
 			$OverheatCooldown.start(1);
+			$Particles2D.emitting = true;
 			emit_signal("overheat", $OverheatCooldown.wait_time);
 	else:
 		calc_heat_percentage();
