@@ -27,10 +27,11 @@ func _on_Bullet_area_entered(area) -> void:
 			return
 
 	if area.name == "Player":
-		area.queue_free()
+		get_tree().reload_current_scene()
 
 	if area.get("id") == "Enemy":
 		area.queue_free()
+		Global.score += 100
 
 	print(name, " collided with ", area.name)
 	queue_free()

@@ -17,8 +17,21 @@ current = true
 
 [node name="Background" parent="." instance=ExtResource( 4 )]
 
+[node name="ScoreTimer" type="Timer" parent="."]
+autostart = true
+
 [node name="SpawnTimer" type="Timer" parent="."]
 wait_time = 2.0
 autostart = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Score" type="Label" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -20.0
+margin_right = 20.0
+margin_bottom = 14.0
 [connection signal="shot_fired" from="Player" to="." method="_on_Player_shot_fired"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]

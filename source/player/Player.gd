@@ -23,7 +23,7 @@ var overheatPercentage = 0;
 var motion := Vector2();
 var current_shooting_time := 0.0;
 func _ready():
-	max_border_y = get_viewport_rect().size.y - 32; 
+	max_border_y = get_viewport_rect().size.y - 32;
 	min_border_y = (get_viewport_rect().size.y / 1.5) - 32;
 	max_border_x = get_viewport_rect().size.x - 32;
 
@@ -117,7 +117,7 @@ func calc_heat_percentage():
 	overheatPercentage = current_shooting_time / MAX_CONTINUES_SHOOTING_TIME;
 
 func _on_BetweenShotsCooldown_timeout():
-	can_shoot = true;	
+	can_shoot = true;
 
 func _on_OverheatCooldown_timeout():
 	isOverheating = false;

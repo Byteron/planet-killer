@@ -1,5 +1,7 @@
 extends Node2D
 
+onready var score_label := $CanvasLayer/Score
+
 onready var spawn_timer := $SpawnTimer as Timer
 
 func _on_Player_shot_fired(percentage):
@@ -15,3 +17,9 @@ func spawn_enemy():
 
 func _on_SpawnTimer_timeout() -> void:
 	spawn_enemy()
+
+
+func _on_ScoreTimer_timeout() -> void:
+	Global.score += 10
+	score_label.text = str(Global.score)
+
