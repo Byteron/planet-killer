@@ -4,6 +4,9 @@ onready var score_label := $CanvasLayer/Score
 
 onready var spawn_timer := $SpawnTimer as Timer
 
+func _ready() -> void:
+	Global.score = 0
+
 func _on_Player_shot_fired(percentage):
 	$Camera2D.shake(0.3, 40 * percentage, 10 * percentage);
 
