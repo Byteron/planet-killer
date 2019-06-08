@@ -14,6 +14,8 @@ onready var shoot_timer := $ShootTimer as Timer
 onready var tween := $Tween as Tween
 onready var cannon := $Cannon
 
+var id = "Enemy"
+
 func _ready() -> void:
 	var size = get_viewport_rect().size
 	size.y = size.y / 2
