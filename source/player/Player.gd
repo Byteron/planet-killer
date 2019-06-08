@@ -4,6 +4,9 @@ const FRICTION := 0.05;
 const ACCELERATION := 15;
 const BACKWARDS_ACCELERATION := 30;
 const MAX_SPEED := 600;
+const MAX_SHOT_SPREAD = 60;
+const MAX_CONTINUES_SHOOTING_TIME = 1.5;
+const MAX_BULLET_SPEED = 2000;
 
 var max_border_y: int;
 var max_border_x: int;
@@ -12,8 +15,7 @@ const min_border_x = 32;
 const min_border_y = 32;
 
 var motion := Vector2();
-
-
+var current_shooting_time := 0.0;
 func _ready():
 	max_border_y = get_viewport_rect().size.y - 32;
 	max_border_x = get_viewport_rect().size.x - 32;
@@ -23,8 +25,12 @@ func _physics_process(delta):
 	var left =  Input.is_action_pressed("ui_left");
 	var down = Input.is_action_pressed("ui_down");
 	var up = Input.is_action_pressed("ui_up");
-	var shoot = Input.is_action_pressed("ui_shoot");
-
+	var shoot = Input.is_action_pressed("shoot");
+	
+	if shoot: 
+		shoot(delta);
+	else:
+		current_shooting_time -= delta;
 	if right:
 		if motion.x < -ACCELERATION: 
 			motion.x = min(motion.x + BACKWARDS_ACCELERATION, MAX_SPEED);
@@ -64,7 +70,6 @@ func _physics_process(delta):
 		newPos.x = min(newPos.x, max_border_x);
 		newPos.x = max(min_border_x, newPos.x);
 		
-	
 	if newPos.x > get_viewport_rect().size.x:
 		newPos.x = get_viewport_rect().size.x;
 	elif newPos.x <= 0:
@@ -72,3 +77,10 @@ func _physics_process(delta):
 	
 	set_global_position(newPos);
 
+func shoot(delta):
+	current_shooting_time += delta * 2;
+	var percentage = current_shooting_time / MAX_CONTINUES_SHOOTING_TIME;
+	var bullet = Instance.Bullet(global_position, rotation_degrees, MAX_BULLET_SPEED * percentage, MAX_BULLET_SPEED * percentage);
+	bullet.shooter = self
+	get_parent().add_child(bullet);
+	
