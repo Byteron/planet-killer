@@ -46,6 +46,13 @@ func _on_ShootTimer_timeout() -> void:
 		cooldown_timer.start()
 		shoot_timer.stop()
 
+func queue_free():
+	var explosion = Instance.Explosion()
+	explosion.global_position = global_position
+	get_parent().add_child(explosion)
+
+	.queue_free()
+
 func _on_CooldownTimer_timeout() -> void:
 	move()
 
