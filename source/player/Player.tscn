@@ -71,7 +71,7 @@ one_shot = true
 position = Vector2( 0, -10.6201 )
 scale = Vector2( 0.5, 0.6 )
 frames = SubResource( 3 )
-frame = 1
+frame = 2
 playing = true
 offset = Vector2( 0, 400 )
 
