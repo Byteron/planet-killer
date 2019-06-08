@@ -23,4 +23,5 @@ position = Vector2( 157.648, 166.485 )
 [node name="OverheatingMeter" type="TextureProgress" parent="CanvasLayer"]
 margin_right = 40.0
 margin_bottom = 40.0
+[connection signal="overheat" from="Player" to="." method="_on_Player_overheat"]
 [connection signal="shot_fired" from="Player" to="." method="_on_Player_shot_fired"]

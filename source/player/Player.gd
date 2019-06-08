@@ -8,7 +8,9 @@ const MAX_SHOT_SPREAD = 30;
 const MAX_CONTINUES_SHOOTING_TIME = 1.5;
 const MAX_BULLET_SPEED = 2000;
 var isOverheating = false;
+
 signal shot_fired(percentage);
+signal overheat(timer);
 
 var max_border_y: int;
 var max_border_x: int;
@@ -42,6 +44,7 @@ func _physics_process(delta):
 		else:
 			isOverheating = true;
 			$OverheatCooldown.start(1);
+			emit_signal("overheat", $OverheatCooldown.wait_time);
 	else:
 		calc_heat_percentage();
 		current_shooting_time = max(0, current_shooting_time - delta);
